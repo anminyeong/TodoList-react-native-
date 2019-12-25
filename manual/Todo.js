@@ -1,24 +1,54 @@
 import React, {Component} from "react";
 import {View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
+import { CheckBox } from "react-native-elements";
 const{width,height} = Dimensions.get("window");
 
 export default class ToDo extends Component{
     state={
         isEditing: false,
-        isCompleted: false
+        isCompleted : false
     }
     render(){
+        const { isCompleted, isEditing } = this.state;
         return(
             <View style={styles.container}>
-                <TouchableOpacity>
-                    <View style={styles.circle}/>
-                </TouchableOpacity>
-                <Text style={styles.text}> Hello I'm  To Do </Text>
+                <View style={styles.column}>
+                    <TouchableOpacity onPress={this._toggleComplete}> 
+                        <View style={[styles.circle, isCompleted ? styles.completedCircle : styles.uncompletedCircle]}/>
+                    </TouchableOpacity>
+                    <Text style={[styles.text, isCompleted ? styles.completedText : styles.uncompletedText]}> 
+                        Hello I'm  To Do
+                    </Text>
+                </View>
+                <View style={styles.column}>
+                     {isEditing ? 
+                         <View style={styles.actions}>
+                             <TouchableOpacity>
+                                 <View style={styles.actions}>
+                                     <Text style={styles.actionText}></Text>
+                                 </View>
+                             </TouchableOpacity>
+                        </View> 
+                      : <View style={styles.actions}>
+                        <TouchableOpacity>
+                            <View style={styles.actions}>
+                                <Text style={styles.actionText}></Text>
+                            </View>
+                        </TouchableOpacity>
+                   </View>}
+                </View>
             </View>
         );
     }
-}
+    _toggleComplete = () => {
+        this.setState(prevState =>{
+            return {
 
+            }
+        })
+    }
+}
+ 
 const styles = StyleSheet.create({
     container:{
         width: width-50,
@@ -37,7 +67,21 @@ const styles = StyleSheet.create({
     },
     text:{
         fontWeight: "600",
-        fontSize:20
+        fontSize:20,
+        marginVertical: 20
+    },
+    completedText:{
+        color: "#bbb",
+        textDecorationLine: "line-through"
+    },
+    uncompletedText:{
+        color:"#353839"
+    },
+    column:{
+        flexDirection: "row",
+        alignItems: "center",
+        width: width / 2,
+        justifyContent: "space-between"
     }
 
 });
